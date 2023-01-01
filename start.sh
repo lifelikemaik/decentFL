@@ -1,8 +1,9 @@
 #!/bin/bash
 
 apt-get update
-apt-get upgrade -y
+# apt-get upgrade -y 
+# dauert 5 min + interactive shell von sshd
 
-apt-get install -y python3-pip
+apt-get -y install python3-pip
 
-pip3 install -r requirements.txt
+pip3 install poetry
