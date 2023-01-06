@@ -1,0 +1,4 @@
+flwr
+torch
+torchvision
+validators==0.18.2
