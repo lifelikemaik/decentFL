@@ -1,4 +1,0 @@
-flwr
-poetry
-torch
-torchvision
