@@ -100,7 +100,7 @@ def main() -> None:
     parser.add_argument(
         "--ip",
         type=str,
-        default="localhost",
+        default="172.24.33.61",
         required=False,
         help="Get IP from server",
     )

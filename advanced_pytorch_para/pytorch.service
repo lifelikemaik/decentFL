@@ -3,7 +3,7 @@ Description=Pytorch client service
 
 [Service]
 # Type=simple
-ExecStart=/usr/bin/python3 /home/ubuntu/flowertest/advanced_pytorch_para/clientPara.py --ip %I
+ExecStart=/usr/bin/python3 /home/ubuntu/flowertest/advanced_pytorch_para/clientPara.py
 ExecStop=/bin/kill -s SIGINT -$MAINPID & /bin/kill -s SIGINT -$MAINPID
 
 [Install]
