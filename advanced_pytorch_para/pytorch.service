@@ -1,0 +1,14 @@
+[Unit]
+Description=Pytorch client service
+
+[Service]
+# Type=simple
+ExecStart=/usr/bin/python3 /home/ubuntu/flowertest/advanced_pytorch_para/clientPara.py %I
+ExecStop=/bin/kill -s SIGINT -$MAINPID & /bin/kill -s SIGINT -$MAINPID
+
+[Install]
+WantedBy=multi-user.target
+# WantedBy=default.target
+
+# Ziel ist: /etc/systemd/system
+# Ziel ist also: /etc/systemd/system/discovery.service

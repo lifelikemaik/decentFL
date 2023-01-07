@@ -6,6 +6,7 @@ import flwr as fl
 import argparse
 from collections import OrderedDict
 import warnings
+import sys
 
 warnings.filterwarnings("ignore")
 
@@ -115,7 +116,7 @@ def main() -> None:
     parser.add_argument(
         "--toy",
         type=bool,
-        default=False,
+        default=True,
         required=False,
         help="Set to true to quicky run the client using only 10 datasamples. \
         Useful for testing purposes. Default: False",
@@ -147,7 +148,9 @@ def main() -> None:
         # Start Flower client
         client = CifarClient(trainset, testset, device)
 
-        fl.client.start_numpy_client(server_address="172.24.33.61:8080", client=client)
+        fl.client.start_numpy_client(
+            server_address=sys.argv[1] + ":8080", client=client
+        )
 
 
 if __name__ == "__main__":
