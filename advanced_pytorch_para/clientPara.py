@@ -98,6 +98,13 @@ def main() -> None:
     # Parse command line argument `partition`
     parser = argparse.ArgumentParser(description="Flower")
     parser.add_argument(
+        "--ip",
+        type=str,
+        default="localhost",
+        required=False,
+        help="Get IP from server",
+    )
+    parser.add_argument(
         "--dry",
         type=bool,
         default=False,
@@ -130,6 +137,8 @@ def main() -> None:
     )
 
     args = parser.parse_args()
+    # print(vars(args))
+    print(args.ip)
 
     device = torch.device(
         "cuda:0" if torch.cuda.is_available() and args.use_cuda else "cpu"
@@ -149,7 +158,7 @@ def main() -> None:
         client = CifarClient(trainset, testset, device)
 
         fl.client.start_numpy_client(
-            server_address=sys.argv[1] + ":8080", client=client
+            server_address = args.ip + ":8080", client=client
         )
 
 
