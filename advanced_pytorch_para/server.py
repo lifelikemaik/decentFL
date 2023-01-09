@@ -69,7 +69,7 @@ def get_evaluate_fn(model: torch.nn.Module, toy: bool):
     return evaluate
 
 
-def main():
+def main(rounds):
     """Load model for
     1. server-side parameter initialization
     2. server-side parameter evaluation
@@ -108,10 +108,10 @@ def main():
     # Start Flower server for four rounds of federated learning
     fl.server.start_server(
         server_address="0.0.0.0:8080",
-        config=fl.server.ServerConfig(num_rounds=4),
+        config=fl.server.ServerConfig(num_rounds=rounds),
         strategy=strategy,
     )
 
 
 if __name__ == "__main__":
-    main()
+    main(4)

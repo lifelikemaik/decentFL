@@ -6,7 +6,8 @@ import flwr as fl
 import argparse
 from collections import OrderedDict
 import warnings
-import sys
+import wandb
+import os
 
 warnings.filterwarnings("ignore")
 
@@ -23,6 +24,19 @@ class CifarClient(fl.client.NumPyClient):
         self.trainset = trainset
         self.testset = testset
         self.validation_split = validation_split
+        os.environ["WANDB_API_KEY"] = "a2d90cdeb8de7e5e4f8baf1702119bcfee78d1ee"
+        configO = {
+            "dataset": "CIFAR10",
+            "machine": os.uname()[1],
+            "model": "CNN",
+            "learning_rate": 0.01,
+            "batch_size": 128,
+        }
+        config = {
+            "dataset": "CIFAR10",
+            "machine": os.uname()[1],
+        }
+        wandb.init(config=config, project="dfl", entity="lifelikemaik")
 
     def set_parameters(self, parameters):
         """Loads a efficientnet model and replaces it parameters with the ones
@@ -31,6 +45,7 @@ class CifarClient(fl.client.NumPyClient):
         params_dict = zip(model.state_dict().keys(), parameters)
         state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
         model.load_state_dict(state_dict, strict=True)
+
         return model
 
     def fit(self, parameters, config):
@@ -64,7 +79,7 @@ class CifarClient(fl.client.NumPyClient):
         """Evaluate parameters on the locally held test set."""
         # Update local model parameters
         model = self.set_parameters(parameters)
-
+        wandb.watch(model)
         # Get config values
         steps: int = config["val_steps"]
 
@@ -72,6 +87,7 @@ class CifarClient(fl.client.NumPyClient):
         testloader = DataLoader(self.testset, batch_size=16)
 
         loss, accuracy = utils.test(model, testloader, steps, self.device)
+        wandb.log({"loss": loss})
         return float(loss), len(self.testset), {"accuracy": float(accuracy)}
 
 
@@ -94,16 +110,16 @@ def client_dry_run(device: str = "cpu"):
     print("Dry Run Successful")
 
 
-def main() -> None:
+def main(ipaddress) -> None:
     # Parse command line argument `partition`
     parser = argparse.ArgumentParser(description="Flower")
-    parser.add_argument(
-        "--ip",
-        type=str,
-        default="172.24.33.61",
-        required=False,
-        help="Get IP from server",
-    )
+    # parser.add_argument(
+    #     "--ip",
+    #     type=str,
+    #     default="172.24.33.61",
+    #     required=False,
+    #     help="Get IP from server",
+    # )
     parser.add_argument(
         "--dry",
         type=bool,
@@ -157,10 +173,8 @@ def main() -> None:
         # Start Flower client
         client = CifarClient(trainset, testset, device)
 
-        fl.client.start_numpy_client(
-            server_address = args.ip + ":8080", client=client
-        )
+        fl.client.start_numpy_client(server_address=ipaddress + ":8080", client=client)
 
 
 if __name__ == "__main__":
-    main()
+    main("localhost")
