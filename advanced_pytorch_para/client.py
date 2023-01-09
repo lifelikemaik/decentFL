@@ -154,7 +154,6 @@ def main(ipaddress) -> None:
 
     args = parser.parse_args()
     # print(vars(args))
-    print(args.ip)
 
     device = torch.device(
         "cuda:0" if torch.cuda.is_available() and args.use_cuda else "cpu"
