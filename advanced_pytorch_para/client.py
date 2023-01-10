@@ -66,7 +66,7 @@ class CifarClient(fl.client.NumPyClient):
         """Evaluate parameters on the locally held test set."""
         # Update local model parameters
         model = self.set_parameters(parameters)
-        wandb.watch(model)
+        
         # Get config values
         steps: int = config["val_steps"]
 
@@ -74,7 +74,9 @@ class CifarClient(fl.client.NumPyClient):
         testloader = DataLoader(self.testset, batch_size=16)
 
         loss, accuracy = utils.test(model, testloader, steps, self.device)
+        wandb.watch(model)
         wandb.log({"loss": loss})
+        wandb.log({"accuracy": accuracy})
         return float(loss), len(self.testset), {"accuracy": float(accuracy)}
 
 

@@ -12,6 +12,12 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
+config = {
+        "dataset": "CIFAR10",
+        "machine": os.uname()[1],
+    }
+wandb.init(config=config, project="dfl", entity="lifelikemaik")
+wandb.run.name = os.uname()[1]
 
 def fit_config(server_round: int):
     """Return training configuration dict for each round.
@@ -63,9 +69,11 @@ def get_evaluate_fn(model: torch.nn.Module, toy: bool):
         state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
         model.load_state_dict(state_dict, strict=True)
 
-        wandb.watch(model)
+        
         loss, accuracy = utils.test(model, valLoader)
         wandb.log({"loss": loss})
+        wandb.log({"accuracy": accuracy})
+        wandb.watch(model)
         return loss, {"accuracy": accuracy}
 
     return evaluate
@@ -84,12 +92,7 @@ def main(rounds):
         "learning_rate": 0.01,
         "batch_size": 128,
     }
-    config = {
-        "dataset": "CIFAR10",
-        "machine": os.uname()[1],
-    }
-    wandb.init(config=config, project="dfl", entity="lifelikemaik")
-    wandb.run.name = os.uname()[1]
+    
 
     # Parse command line argument `partition`
     parser = argparse.ArgumentParser(description="Flower")
@@ -106,21 +109,21 @@ def main(rounds):
 
     model = utils.load_efficientnet(classes=10)
 
-    wandb.watch(model)
+    wandb.watch(model) 
 
-    model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
+    # model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
 
     # Create strategy
     strategy = fl.server.strategy.FedAvg(
-        fraction_fit=0.2,
-        fraction_evaluate=0.2,
+        fraction_fit=0.5,
+        fraction_evaluate=0.5,
         min_fit_clients=2,
         min_evaluate_clients=5,
         min_available_clients=9,
         evaluate_fn=get_evaluate_fn(model, args.toy),
         on_fit_config_fn=fit_config,
         on_evaluate_config_fn=evaluate_config,
-        initial_parameters=fl.common.ndarrays_to_parameters(model_parameters),
+        # initial_parameters=fl.common.ndarrays_to_parameters(model_parameters),
     )
 
     # Start Flower server for four rounds of federated learning
@@ -132,4 +135,4 @@ def main(rounds):
 
 
 if __name__ == "__main__":
-    main(20)
+    main(10)

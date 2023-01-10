@@ -11,7 +11,7 @@ python -c "import torch; torch.hub.load( \
         'nvidia_efficientnet_b0', pretrained=True)"
 
 python server.py &
-sleep 120  # Sleep for 3s to give the server enough time to start
+sleep 90  # Sleep for 3s to give the server enough time to start
 
 for i in `seq 0 9`; do
     echo "Starting client $i"
