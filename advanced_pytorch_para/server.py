@@ -108,9 +108,10 @@ def main(rounds):
 
     model = utils.load_efficientnet(classes=10)
 
-    # wandb.watch(model)
+    wandb.watch(model) # inital parameters are necessary, otherwise fail
 
-    # model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
+    # ohne parameter: Requesting initial parameters from one random client
+    model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
 
     # Create strategy
     strategy = fl.server.strategy.FedAvg(
@@ -122,7 +123,7 @@ def main(rounds):
         evaluate_fn=get_evaluate_fn(model, args.toy),
         on_fit_config_fn=fit_config,
         on_evaluate_config_fn=evaluate_config,
-        # initial_parameters=fl.common.ndarrays_to_parameters(model_parameters),
+        initial_parameters=fl.common.ndarrays_to_parameters(model_parameters),
     )
 
     # Start Flower server for four rounds of federated learning
