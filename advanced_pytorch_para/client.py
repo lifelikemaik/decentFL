@@ -24,20 +24,6 @@ class CifarClient(fl.client.NumPyClient):
         self.trainset = trainset
         self.testset = testset
         self.validation_split = validation_split
-        os.environ["WANDB_API_KEY"] = "a2d90cdeb8de7e5e4f8baf1702119bcfee78d1ee"
-        configO = {
-            "dataset": "CIFAR10",
-            "machine": os.uname()[1],
-            "model": "CNN",
-            "learning_rate": 0.01,
-            "batch_size": 128,
-        }
-        config = {
-            "dataset": "CIFAR10",
-            "machine": os.uname()[1],
-        }
-        wandb.init(config=config, project="dfl", entity="lifelikemaik")
-        # wandb.run.name = os.uname()[1] + "_client"
 
     def set_parameters(self, parameters):
         """Loads a efficientnet model and replaces it parameters with the ones
@@ -155,6 +141,21 @@ def main(ipaddress) -> None:
 
     args = parser.parse_args()
     # print(vars(args))
+
+    os.environ["WANDB_API_KEY"] = "a2d90cdeb8de7e5e4f8baf1702119bcfee78d1ee"
+    configO = {
+        "dataset": "CIFAR10",
+        "machine": os.uname()[1],
+        "model": "CNN",
+        "learning_rate": 0.01,
+        "batch_size": 128,
+    }
+    config = {
+        "dataset": "CIFAR10",
+        "machine": os.uname()[1],
+    }
+    wandb.init(config=config, project="dfl", entity="lifelikemaik")
+    wandb.run.name = args.partition + "_client"
 
     device = torch.device(
         "cuda:0" if torch.cuda.is_available() and args.use_cuda else "cpu"

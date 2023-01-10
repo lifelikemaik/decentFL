@@ -115,7 +115,7 @@ def main(rounds):
         fraction_fit=0.2,
         fraction_evaluate=0.2,
         min_fit_clients=2,
-        min_evaluate_clients=2,
+        min_evaluate_clients=5,
         min_available_clients=9,
         evaluate_fn=get_evaluate_fn(model, args.toy),
         on_fit_config_fn=fit_config,
@@ -132,4 +132,4 @@ def main(rounds):
 
 
 if __name__ == "__main__":
-    main(4)
+    main(20)
