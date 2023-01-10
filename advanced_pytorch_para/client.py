@@ -155,7 +155,7 @@ def main(ipaddress) -> None:
         "machine": os.uname()[1],
     }
     wandb.init(config=config, project="dfl", entity="lifelikemaik")
-    wandb.run.name = args.partition + "_client"
+    wandb.run.name = str(args.partition) + "_client"
 
     device = torch.device(
         "cuda:0" if torch.cuda.is_available() and args.use_cuda else "cpu"
