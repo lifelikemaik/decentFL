@@ -12,12 +12,6 @@ import warnings
 
 warnings.filterwarnings("ignore")
 
-config = {
-        "dataset": "CIFAR10",
-        "machine": os.uname()[1],
-    }
-wandb.init(config=config, project="dfl", entity="lifelikemaik")
-wandb.run.name = os.uname()[1]
 
 def fit_config(server_round: int):
     """Return training configuration dict for each round.
@@ -92,7 +86,12 @@ def main(rounds):
         "learning_rate": 0.01,
         "batch_size": 128,
     }
-    
+    config = {
+        "dataset": "CIFAR10",
+        "machine": os.uname()[1],
+    }
+    wandb.init(config=config, project="dfl", entity="lifelikemaik")
+    wandb.run.name = os.uname()[1]
 
     # Parse command line argument `partition`
     parser = argparse.ArgumentParser(description="Flower")
@@ -109,7 +108,7 @@ def main(rounds):
 
     model = utils.load_efficientnet(classes=10)
 
-    wandb.watch(model) 
+    # wandb.watch(model)
 
     # model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
 
