@@ -37,6 +37,7 @@ class CifarClient(fl.client.NumPyClient):
             "machine": os.uname()[1],
         }
         wandb.init(config=config, project="dfl", entity="lifelikemaik")
+        # wandb.run.name = os.uname()[1] + "_client"
 
     def set_parameters(self, parameters):
         """Loads a efficientnet model and replaces it parameters with the ones

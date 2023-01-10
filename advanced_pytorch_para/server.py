@@ -5,9 +5,9 @@ from torch.utils.data import DataLoader
 
 import flwr as fl
 import torch
-
+import os
 import utils
-
+import wandb
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -63,7 +63,9 @@ def get_evaluate_fn(model: torch.nn.Module, toy: bool):
         state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
         model.load_state_dict(state_dict, strict=True)
 
+        wandb.watch(model)
         loss, accuracy = utils.test(model, valLoader)
+        wandb.log({"loss": loss})
         return loss, {"accuracy": accuracy}
 
     return evaluate
@@ -74,13 +76,27 @@ def main(rounds):
     1. server-side parameter initialization
     2. server-side parameter evaluation
     """
-
+    os.environ["WANDB_API_KEY"] = "a2d90cdeb8de7e5e4f8baf1702119bcfee78d1ee"
+    configO = {
+            "dataset": "CIFAR10",
+            "machine": os.uname()[1],
+            "model": "CNN",
+            "learning_rate": 0.01,
+            "batch_size": 128,
+        }
+    config = {
+            "dataset": "CIFAR10",
+            "machine": os.uname()[1],
+        }
+    wandb.init(config=config, project="dfl", entity="lifelikemaik")
+    wandb.run.name = os.uname()[1]
+    
     # Parse command line argument `partition`
     parser = argparse.ArgumentParser(description="Flower")
     parser.add_argument(
         "--toy",
         type=bool,
-        default=False,
+        default=True,
         required=False,
         help="Set to true to use only 10 datasamples for validation. \
             Useful for testing purposes. Default: False",
@@ -89,6 +105,8 @@ def main(rounds):
     args = parser.parse_args()
 
     model = utils.load_efficientnet(classes=10)
+
+    wandb.watch(model)
 
     model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
 
