@@ -78,19 +78,19 @@ def main(rounds):
     """
     os.environ["WANDB_API_KEY"] = "a2d90cdeb8de7e5e4f8baf1702119bcfee78d1ee"
     configO = {
-            "dataset": "CIFAR10",
-            "machine": os.uname()[1],
-            "model": "CNN",
-            "learning_rate": 0.01,
-            "batch_size": 128,
-        }
+        "dataset": "CIFAR10",
+        "machine": os.uname()[1],
+        "model": "CNN",
+        "learning_rate": 0.01,
+        "batch_size": 128,
+    }
     config = {
-            "dataset": "CIFAR10",
-            "machine": os.uname()[1],
-        }
+        "dataset": "CIFAR10",
+        "machine": os.uname()[1],
+    }
     wandb.init(config=config, project="dfl", entity="lifelikemaik")
     wandb.run.name = os.uname()[1]
-    
+
     # Parse command line argument `partition`
     parser = argparse.ArgumentParser(description="Flower")
     parser.add_argument(
