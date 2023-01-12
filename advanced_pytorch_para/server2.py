@@ -10,7 +10,7 @@ import utils
 import wandb
 import warnings
 
-warnings.filterwarnings("ignore")
+# warnings.filterwarnings("ignore")
 
 
 def fit_config(server_round: int):
@@ -64,8 +64,8 @@ def get_evaluate_fn(model: torch.nn.Module, toy: bool):
         model.load_state_dict(state_dict, strict=True)
 
         print(parameters)
-        # print(params_dict)
-        # print(fl.common.ndarrays_to_parameters(parameters))
+        print(params_dict)
+        print(fl.common.ndarrays_to_parameters(parameters))
         
         loss, accuracy = utils.test(model, valLoader)
         wandb.log({"loss": loss})

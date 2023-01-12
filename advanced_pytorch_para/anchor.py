@@ -1,5 +1,5 @@
-import server
-import client
+import server2
+import client2
 import zmq
 import json
 import re

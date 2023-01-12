@@ -9,7 +9,7 @@ import warnings
 import wandb
 import os
 
-# warnings.filterwarnings("ignore")
+warnings.filterwarnings("ignore")
 
 
 class CifarClient(fl.client.NumPyClient):
@@ -25,6 +25,10 @@ class CifarClient(fl.client.NumPyClient):
         self.testset = testset
         self.validation_split = validation_split
 
+    def get_parameters(self, config):
+        print("ALARM alarm!")
+        return [val.cpu().numpy() for _, val in self.model.state_dict().items()]
+
     def set_parameters(self, parameters):
         """Loads a efficientnet model and replaces it parameters with the ones
         given."""
@@ -34,9 +38,6 @@ class CifarClient(fl.client.NumPyClient):
         model.load_state_dict(state_dict, strict=True)
 
         return model
-    
-    def get_parameters(self, config):
-        print("ALARM alarm!")
 
     def fit(self, parameters, config):
         """Train parameters on the locally held training set."""
@@ -69,7 +70,7 @@ class CifarClient(fl.client.NumPyClient):
         """Evaluate parameters on the locally held test set."""
         # Update local model parameters
         print(parameters)
-        # print(fl.common.ndarrays_to_parameters(parameters))
+        print(fl.common.ndarrays_to_parameters(parameters))
         
         model = self.set_parameters(parameters)
         
