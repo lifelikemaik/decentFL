@@ -6,16 +6,24 @@ import re
 import os
 import time
 
+os.environ["WANDB_API_KEY"] = "a2d90cdeb8de7e5e4f8baf1702119bcfee78d1ee"
 
 def connectToAllNodes():
-    # pub / sub pattern
+    # pub / sub pattern with grpc
     print("pain")
 
     # server.main(4) # start server on port 8080, ENTER round number
 
 
-def getModelAndTrain(model):
-    print(model)
+def clientToServer():
+    print("clientToServer")
+    # get parameter to spawn new server
+    # notify all server
+
+def serverToClient():
+    print("serverToClient")
+    print("starting Client again")
+    # announce new server from file or algo
 
 
 if __name__ == "__main__":
