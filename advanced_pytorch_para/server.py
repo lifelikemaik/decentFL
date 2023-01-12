@@ -64,6 +64,7 @@ def get_evaluate_fn(model: torch.nn.Module, toy: bool):
         model.load_state_dict(state_dict, strict=True)
 
         print(len(parameters))
+        wandb.log({"parameterlength": len(parameters)})
         # print(params_dict)
         # print(fl.common.ndarrays_to_parameters(parameters))
         

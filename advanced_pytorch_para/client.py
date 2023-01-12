@@ -68,7 +68,8 @@ class CifarClient(fl.client.NumPyClient):
     def evaluate(self, parameters, config):
         """Evaluate parameters on the locally held test set."""
         # Update local model parameters
-        print(len(parameters))
+        # print(len(parameters))
+        wandb.log({"parameterlength": len(parameters)})
         # print(fl.common.ndarrays_to_parameters(parameters))
         
         model = self.set_parameters(parameters)
