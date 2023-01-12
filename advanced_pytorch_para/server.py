@@ -63,7 +63,7 @@ def get_evaluate_fn(model: torch.nn.Module, toy: bool):
         state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict})
         model.load_state_dict(state_dict, strict=True)
 
-        print(parameters)
+        print(len(parameters))
         # print(params_dict)
         # print(fl.common.ndarrays_to_parameters(parameters))
         
