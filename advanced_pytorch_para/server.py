@@ -130,6 +130,8 @@ def main(rounds):
         initial_parameters=fl.common.ndarrays_to_parameters(model_parameters),
     )
 
+    print(type(fl.common.ndarrays_to_parameters(model_parameters)))
+
     # Start Flower server for four rounds of federated learning
     fl.server.start_server(
         server_address="0.0.0.0:8080",
