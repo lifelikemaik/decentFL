@@ -214,7 +214,7 @@ if __name__ == "__main__":
     device = torch.device("cpu")
 
     specialClient = CifarClient(trainset, testset, device)
-    CifarClient.set_parameters(CurrentParameters.get_currentParameter())
+    specialClient.set_parameters(current.get_currentParameter()) ### set_parameters() missing 1 required positional argument: 'parameters'
 
     flwr.client.start_numpy_client(server_address=ipaddress + ":8080", client=specialClient)
 
