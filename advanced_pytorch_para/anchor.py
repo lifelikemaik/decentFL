@@ -8,21 +8,23 @@ import re
 import os
 import time
 import flwr
+from torch.utils.data import DataLoader
+import utils
 # from flwr import NDArray, NDArrays, Parameters
 
 os.environ["WANDB_API_KEY"] = "a2d90cdeb8de7e5e4f8baf1702119bcfee78d1ee"
 
 class CurrentParameters:
-    def __init__(self, age = 0):
-         self._age = age
+    def __init__(self, current = flwr.common.Parameters([], "")):
+         self._current = current
       
     # getter method
     def get_currentParameter(self):
-        return self._age
+        return self._current
       
     # setter method
     def set_currentParameter(self, x):
-        self._age = x
+        self._current = x
 
 
 def connectToAllNodes(vm_load):
@@ -39,6 +41,7 @@ def connectToAllNodes(vm_load):
     socketsub = contextsub.socket(zmq.SUB)
     topicfilter = "LEADER"
     socketsub.setsockopt(zmq.SUBSCRIBE, topicfilter)
+    # time.sleep(120)
     for n in range(len(vm_load) - 1, -1, -1):
         # last at first .. duh
         # print(vm_load[str(n)]) # all info
@@ -86,7 +89,17 @@ if __name__ == "__main__":
     #     client.main(ipServer)
 
     currentLeader = ""
-    connectToAllNodes(vm_load)
+    # connectToAllNodes(vm_load)
+
+    current = CurrentParameters()
+    model = utils.load_efficientnet(classes=10)
+    model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
+    temp = flwr.common.ndarrays_to_parameters(model_parameters)
+
+    current.set_currentParameter(temp)
+    print(current.get_currentParameter())
+
+
 
     # while True:
     #     try:
