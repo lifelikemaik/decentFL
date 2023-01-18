@@ -206,7 +206,7 @@ if __name__ == "__main__":
     # )
     # nach jeder Runde checken ob neue Participants
 
-    ipaddress = localhost
+    ipaddress = "localhost"
 
     trainset, testset = utils.load_partition(0)
     trainset = torch.utils.data.Subset(trainset, range(10))
