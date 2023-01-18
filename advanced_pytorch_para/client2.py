@@ -1,3 +1,4 @@
+##############  TEST SKRIPT!!!!!!!! ###########
 import utils
 from torch.utils.data import DataLoader
 import torchvision.datasets
@@ -147,6 +148,7 @@ def main(ipaddress) -> None:
         required=False,
         help="Set to true to use GPU. Default: False",
     )
+
 
     args = parser.parse_args()
     # print(vars(args))
