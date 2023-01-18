@@ -1,3 +1,4 @@
+##############  TEST SKRIPT!!!!!!!! ###########
 from typing import Dict, Optional, Tuple
 from collections import OrderedDict
 import argparse
@@ -64,14 +65,14 @@ def get_evaluate_fn(model: torch.nn.Module, toy: bool):
         model.load_state_dict(state_dict, strict=True)
 
         print(len(parameters))
-        wandb.log({"parameterlength": len(parameters)})
+        # wandb.log({"parameterlength": len(parameters)})
         # print(params_dict)
         # print(fl.common.ndarrays_to_parameters(parameters))
         
         loss, accuracy = utils.test(model, valLoader)
-        wandb.log({"loss": loss})
-        wandb.log({"accuracy": accuracy})
-        wandb.watch(model)
+        # wandb.log({"loss": loss})
+        # wandb.log({"accuracy": accuracy})
+        # wandb.watch(model)
         return loss, {"accuracy": accuracy}
 
     return evaluate
@@ -94,8 +95,8 @@ def main(rounds):
         "dataset": "CIFAR10",
         "machine": os.uname()[1],
     }
-    wandb.init(config=config, project="dfl", entity="lifelikemaik")
-    wandb.run.name = os.uname()[1]
+    # wandb.init(config=config, project="dfl", entity="lifelikemaik")
+    # wandb.run.name = os.uname()[1]
 
     # Parse command line argument `partition`
     parser = argparse.ArgumentParser(description="Flower")
@@ -113,7 +114,7 @@ def main(rounds):
     model = utils.load_efficientnet(classes=10) # inital parameters are necessary, otherwise fail
 
 
-    wandb.watch(model) # 5 sec run, than new model appears
+    # wandb.watch(model) # 5 sec run, than new model appears
     # ohne parameter: Requesting initial parameters from one random client
     model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
 
