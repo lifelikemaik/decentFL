@@ -7,6 +7,7 @@ import json
 import re
 import os
 import time
+import argparse
 import flwr
 from torch.utils.data import DataLoader
 import utils
@@ -76,10 +77,10 @@ def getVMlist():
 
 
 if __name__ == "__main__":
-    vm_load = getVMlist()
+    # vm_load = getVMlist()
     # print(vm_load[str(len(vm_load) - 1)])  # get info of last node in list
-    print(vm_load)
-    print(vm_load[str(len(vm_load) - 1)][0])
+    # print(vm_load)
+    # print(vm_load[str(len(vm_load) - 1)][0])
 
     # if(re.findall(r"\d+", os.uname()[1])[0] == str(len(vm_load) - 1)):
     #     server.main(4)
@@ -94,11 +95,40 @@ if __name__ == "__main__":
     current = CurrentParameters()
     model = utils.load_efficientnet(classes=10)
     model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
-    temp = flwr.common.ndarrays_to_parameters(model_parameters)
+    initi = flwr.common.ndarrays_to_parameters(model_parameters)
 
-    current.set_currentParameter(temp)
-    print(current.get_currentParameter())
+    current.set_currentParameter(initi) # atomic?
+    # print(current.get_currentParameter()) # get Para
 
+    parser = argparse.ArgumentParser(description="Flower")
+    parser.add_argument(
+        "--toy",
+        type=bool,
+        default=True,
+        required=False,
+        help="Set to true to use only 10 datasamples for validation. \
+            Useful for testing purposes. Default: False",
+    )
+
+    args = parser.parse_args()
+
+    strategy = flwr.server.strategy.FedAvg(
+        fraction_fit=0.5,
+        fraction_evaluate=0.5,
+        min_fit_clients=2,
+        min_evaluate_clients=5,
+        min_available_clients=9,
+        evaluate_fn=server2.get_evaluate_fn(model, args.toy),
+        on_fit_config_fn=server2.fit_config,
+        on_evaluate_config_fn=server2.evaluate_config,
+        initial_parameters=current.get_currentParameter(),
+    )
+
+    flwr.server.start_server(
+        server_address="0.0.0.0:8080",
+        config=flwr.server.ServerConfig(num_rounds=1),
+        strategy=strategy,
+    )
 
 
     # while True:
