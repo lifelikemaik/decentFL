@@ -7,7 +7,7 @@ RUN apt-get -y update
 # Upgrade already installed packages:
 
 
-RUN apt-get install -y git rabbitmq-server python3 python3-pip python-dev python-is-python3 build-essential wget
+RUN apt-get install -y git rabbitmq-server python3 python3-pip python-dev build-essential wget
 
 RUN git clone https://github.com/lifelikemaik/decentFL
 
