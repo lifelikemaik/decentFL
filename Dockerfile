@@ -12,7 +12,7 @@ RUN apt-get install -y git rabbitmq-server python3 python3-pip python-dev build-
 RUN git clone https://github.com/lifelikemaik/decentFL
 
 # install requirements.txt
-RUN pip3 install -r requirements.txt
+RUN pip3 install -r decentFL/advanced_pytorch_para/requirements.txt
 
 RUN apt-get -y upgrade urllib3 requests
 
