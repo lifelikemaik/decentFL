@@ -1,0 +1,21 @@
+[Unit]
+Description=UDP Discovery service
+# After=network.target
+# Description=pretix
+# After=leader.service
+# Requires=docker.service
+
+[Service]
+# User=root
+# Group=demo
+Type=simple
+WorkingDirectory=/root/
+ExecStart=/usr/bin/python3 /root/discovery.py
+ExecStop=/bin/kill -s SIGINT -$MAINPID & /bin/kill -s SIGINT -$MAINPID
+
+[Install]
+WantedBy=multi-user.target
+# WantedBy=default.target
+
+# Ziel ist: /etc/systemd/system
+# Ziel ist also: /etc/systemd/system/discovery.service
