@@ -1,6 +1,7 @@
 #!/bin/sh
 
 rabbitmq-server start -detached
+sleep 3
 rabbitmqctl start_app
 
 # activate rabbitmq plugins
