@@ -26,7 +26,7 @@ RUN chmod +x /initRabbit.sh
 EXPOSE 5007
 
 
-# RUN /initRabbit.sh
+RUN /initRabbit.sh
 
 CMD [ "python3", "./discovery.py"]
 
