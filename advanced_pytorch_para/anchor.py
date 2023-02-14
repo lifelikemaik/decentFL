@@ -30,6 +30,8 @@ class CurrentParameters:
     def set_currentParameter(self, x):
         self._current = x
 
+# ohne subclass ggf. mit GRPC Endpoints oder global parameter definition
+
 
 
 class CifarClient(flwr.client.NumPyClient):
@@ -46,7 +48,7 @@ class CifarClient(flwr.client.NumPyClient):
         self.validation_split = validation_split
 
     def get_parameters(self, config):
-        print("ALARM alarm!")
+        print("ALARM alarm!") # wird nicht gecalled
         return [val.cpu().numpy() for _, val in self.model.state_dict().items()]
 
     def set_parameters(self, parameters):
@@ -101,30 +103,21 @@ class CifarClient(flwr.client.NumPyClient):
         testloader = DataLoader(self.testset, batch_size=16)
 
         loss, accuracy = utils.test(model, testloader, steps, self.device)
-        return float(loss), len(self.testset), {"accuracy": float(accuracy)}
+        return float(loss), len(self.testset), {"accuracy": float(accuracy)}, model
 
 
 
 def connectToAllNodes(vm_load):
     # pub / sub pattern with grpc macht eher weniger sinn
 
-    # zeroMQ pub / sub
+  
 
-    context = zmq.Context()
-    socket = context.socket(zmq.PUB)
-    socket.bind("tcp://*:%s" % 5556)
-    # versuchen wir mal einen Port; 5556
-
-    contextsub = zmq.Context()
-    socketsub = contextsub.socket(zmq.SUB)
-    topicfilter = "LEADER"
-    socketsub.setsockopt(zmq.SUBSCRIBE, topicfilter)
     # time.sleep(120)
     for n in range(len(vm_load) - 1, -1, -1):
         # last at first .. duh
         # print(vm_load[str(n)]) # all info
         # print(vm_load[str(n)][0]) # just ips
-        socket.connect("tcp://" + str(vm_load[str(n)][0]) + ":%s" % 5556)
+        connect("tcp://" + str(vm_load[str(n)][0]) + ":%s" % 5556)
 
     print("pain")
 
@@ -214,7 +207,7 @@ if __name__ == "__main__":
     device = torch.device("cpu")
 
     specialClient = CifarClient(trainset, testset, device)
-    specialClient.set_parameters(current.get_currentParameter()) ### set_parameters() missing 1 required positional argument: 'parameters'
+    # specialClient.set_parameters(current.get_currentParameter()) ### set_parameters() missing 1 required positional argument: 'parameters'
 
     flwr.client.start_numpy_client(server_address=ipaddress + ":8080", client=specialClient)
 
