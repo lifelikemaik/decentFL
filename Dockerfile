@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM rabbitmq:3.11.9-management
 
 # FROM python:3.8.16-bullseye
 
