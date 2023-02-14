@@ -1,13 +1,11 @@
 FROM rabbitmq:3.11.9-management
 
-# FROM python:3.8.16-bullseye
-
 # Download latest listing of available packages:
 RUN apt-get -y update
 # Upgrade already installed packages:
 
 
-RUN apt-get install -y git rabbitmq-server iproute2 python3 python3-pip python-dev build-essential wget
+RUN apt-get install -y git iproute2 python3 python3-pip python-dev build-essential wget
 
 RUN git clone https://github.com/lifelikemaik/decentFL
 
