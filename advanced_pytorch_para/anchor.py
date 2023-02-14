@@ -2,7 +2,6 @@ import signal
 import sys
 import server2
 import client2
-import zmq
 import json
 import re
 import os
@@ -110,14 +109,13 @@ class CifarClient(flwr.client.NumPyClient):
 def connectToAllNodes(vm_load):
     # pub / sub pattern with grpc macht eher weniger sinn
 
-  
 
-    # time.sleep(120)
+    
     for n in range(len(vm_load) - 1, -1, -1):
         # last at first .. duh
         # print(vm_load[str(n)]) # all info
         # print(vm_load[str(n)][0]) # just ips
-        connect("tcp://" + str(vm_load[str(n)][0]) + ":%s" % 5556)
+        str(vm_load[str(n)][0]) + ":%s" % 1883
 
     print("pain")
 

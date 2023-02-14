@@ -1,7 +1,33 @@
 version: "0.1"
 services:
-  container:
+  container1:
     image: test:latest
-    # build: .
+    hostname: container1
+    container_name: container1
+    environment:
+      RABBITMQ_DEFAULT_PASS: test
+      RABBITMQ_DEFAULT_USER: test
     ports:
-      - "15672-15700:15672"
+      - "5672:5672"
+      - "15672:15672"
+  container2:
+    image: test:latest
+    hostname: container2
+    container_name: container2
+    environment:
+      RABBITMQ_DEFAULT_PASS: test
+      RABBITMQ_DEFAULT_USER: test
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+  container3:
+    image: test:latest
+    hostname: container3
+    container_name: container3
+    environment:
+      RABBITMQ_DEFAULT_PASS: test
+      RABBITMQ_DEFAULT_USER: test
+    ports:
+      - "5674:5672"
+      - "15674:15672"
+

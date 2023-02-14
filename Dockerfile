@@ -21,12 +21,25 @@ ADD discovery.py /discovery.py
 # ADD discovery.service /discovery.service
 RUN chmod +x /initRabbit.sh
 
+RUN rabbitmq-plugins enable --offline rabbitmq_mqtt
 
+# ENV RABBITMQ_DEFAULT_USER test
+# ENV RABBITMQ_DEFAULT_PASS pass
 
 EXPOSE 5007
 
+# RUN rabbitmq-server -detached
+# RUN sleep 5
+# RUN rabbitmq-plugins enable rabbitmq_mqtt
+# RUN sleep 5
+# # create a user
+# RUN rabbitmqctl add_user test test
+# RUN sleep 5
+# # tag the user with "administrator" for full management UI and HTTP API access
+# RUN rabbitmqctl set_user_tags test administrator
+# # RUN /initRabbit.sh
 
-RUN /initRabbit.sh
-
-CMD [ "python3", "./discovery.py"]
+# CMD [ "python3", "./discovery.py"]
+# RUN python3 discovery.py &
+CMD ["rabbitmq-server"]
 
