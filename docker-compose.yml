@@ -1,0 +1,7 @@
+version: "0.1"
+services:
+  container:
+    image: test:latest
+    # build: .
+    ports:
+      - "15672-15700:15672"
