@@ -127,18 +127,20 @@ print(net)
 # genauso geblieben, ein Glueck
 
 # parametersp = torch.load("/home/ubuntu2/Desktop/decentFL/newModel_round_2.pth")
-parametersp = np.load("/home/ubuntu2/Desktop/decentFL/newModel_round_2.pth")
-params_dict = zip(net.state_dict().keys(), parametersp)
-state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict}) # FEHLER
-net.load_state_dict(state_dict, strict=True)
 
-strategyini = SaveModelStrategy(
-    evaluate_metrics_aggregation_fn=weighted_average,
-    initial_parameters=[val.cpu().numpy() for _, val in net.state_dict().items()],
-)
 
-fl.server.start_server(
-    server_address="0.0.0.0:8080",
-    config=fl.server.ServerConfig(num_rounds=3),
-    strategy=strategyini,
-)
+# parametersp = np.load("/home/ubuntu2/Desktop/decentFL/newModel_round_2.pth")
+# params_dict = zip(net.state_dict().keys(), parametersp)
+# state_dict = OrderedDict({k: torch.tensor(v) for k, v in params_dict}) # FEHLER
+# net.load_state_dict(state_dict, strict=True)
+
+# strategyini = SaveModelStrategy(
+#     evaluate_metrics_aggregation_fn=weighted_average,
+#     initial_parameters=[val.cpu().numpy() for _, val in net.state_dict().items()],
+# )
+
+# fl.server.start_server(
+#     server_address="0.0.0.0:8080",
+#     config=fl.server.ServerConfig(num_rounds=3),
+#     strategy=strategyini,
+# )
