@@ -43,8 +43,16 @@ def run(rank, size):
         c = t.clone()
         dist.all_reduce(c, dist.ReduceOp.SUM)
         # allreduce(t, c)
-        t.set_(c)
+        t.set_(c / size) # average
     print(t)
+
+
+""" Gradient averaging. """
+def average_gradients(model):
+    size = float(dist.get_world_size())
+    for param in model.parameters():
+        dist.all_reduce(param.grad.data, op=dist.ReduceOp.SUM)
+        param.grad.data /= size
 
 
 def init_processes(rank, size, fn, backend='gloo'):
