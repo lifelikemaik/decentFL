@@ -68,7 +68,7 @@ def get_evaluate_fn(model: torch.nn.Module, toy: bool):
         # wandb.log({"parameterlength": len(parameters)})
         # print(params_dict)
         # print(fl.common.ndarrays_to_parameters(parameters))
-        
+
         loss, accuracy = utils.test(model, valLoader)
         # wandb.log({"loss": loss})
         # wandb.log({"accuracy": accuracy})
@@ -111,8 +111,9 @@ def main(rounds):
 
     args = parser.parse_args()
 
-    model = utils.load_efficientnet(classes=10) # inital parameters are necessary, otherwise fail
-
+    model = utils.load_efficientnet(
+        classes=10
+    )  # inital parameters are necessary, otherwise fail
 
     # wandb.watch(model) # 5 sec run, than new model appears
     # ohne parameter: Requesting initial parameters from one random client

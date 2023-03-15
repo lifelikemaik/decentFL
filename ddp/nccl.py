@@ -5,6 +5,7 @@ import torch.optim as optim
 
 from torch.nn.parallel import DistributedDataParallel as DDP
 
+
 class ToyModel(nn.Module):
     def __init__(self):
         super(ToyModel, self).__init__()
@@ -38,6 +39,7 @@ def demo_basic():
     loss_fn(outputs, labels).backward()
     optimizer.step()
     print(model)
+
 
 if __name__ == "__main__":
     demo_basic()

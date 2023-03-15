@@ -13,24 +13,26 @@ from collections import OrderedDict
 import torchvision.datasets
 import torch
 import utils
+
 # from flwr import NDArray, NDArrays, Parameters
 
 os.environ["WANDB_API_KEY"] = "a2d90cdeb8de7e5e4f8baf1702119bcfee78d1ee"
 
+
 class CurrentParameters:
-    def __init__(self, current = flwr.common.Parameters([], "")):
-         self._current = current
-      
+    def __init__(self, current=flwr.common.Parameters([], "")):
+        self._current = current
+
     # getter method
     def get_currentParameter(self):
         return self._current
-      
+
     # setter method
     def set_currentParameter(self, x):
         self._current = x
 
-# ohne subclass ggf. mit GRPC Endpoints oder global parameter definition
 
+# ohne subclass ggf. mit GRPC Endpoints oder global parameter definition
 
 
 class CifarClient(flwr.client.NumPyClient):
@@ -47,7 +49,7 @@ class CifarClient(flwr.client.NumPyClient):
         self.validation_split = validation_split
 
     def get_parameters(self, config):
-        print("ALARM alarm!") # wird nicht gecalled
+        print("ALARM alarm!")  # wird nicht gecalled
         return [val.cpu().numpy() for _, val in self.model.state_dict().items()]
 
     def set_parameters(self, parameters):
@@ -92,9 +94,9 @@ class CifarClient(flwr.client.NumPyClient):
         # Update local model parameters
         print(len(parameters))
         # print(fl.common.ndarrays_to_parameters(parameters))
-        
+
         model = self.set_parameters(parameters)
-        
+
         # Get config values
         steps: int = config["val_steps"]
 
@@ -105,12 +107,9 @@ class CifarClient(flwr.client.NumPyClient):
         return float(loss), len(self.testset), {"accuracy": float(accuracy)}, model
 
 
-
 def connectToAllNodes(vm_load):
     # pub / sub pattern with grpc macht eher weniger sinn
 
-
-    
     for n in range(len(vm_load) - 1, -1, -1):
         # last at first .. duh
         # print(vm_load[str(n)]) # all info
@@ -125,7 +124,7 @@ def connectToAllNodes(vm_load):
 def clientToServer():
     print("clientToServer")
     # get parameter to spawn new server
-    
+
     # notify all server
 
 
@@ -133,6 +132,7 @@ def serverToClient():
     print("serverToClient")
     print("starting Client again")
     # announce new server from file or algo
+
 
 def clientConnectNewServer():
     print("Client stays client")
@@ -168,7 +168,7 @@ if __name__ == "__main__":
     model_parameters = [val.cpu().numpy() for _, val in model.state_dict().items()]
     initi = flwr.common.ndarrays_to_parameters(model_parameters)
 
-    current.set_currentParameter(initi) # atomic?
+    current.set_currentParameter(initi)  # atomic?
     # parser = argparse.ArgumentParser(description="Flower")
     # parser.add_argument(
     #     "--toy",
@@ -207,16 +207,9 @@ if __name__ == "__main__":
     specialClient = CifarClient(trainset, testset, device)
     # specialClient.set_parameters(current.get_currentParameter()) ### set_parameters() missing 1 required positional argument: 'parameters'
 
-    flwr.client.start_numpy_client(server_address=ipaddress + ":8080", client=specialClient)
-
-
-
-
-
-
-
-
-
+    flwr.client.start_numpy_client(
+        server_address=ipaddress + ":8080", client=specialClient
+    )
 
     # while True:
     #     try:

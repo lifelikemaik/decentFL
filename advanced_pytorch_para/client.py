@@ -34,7 +34,7 @@ class CifarClient(fl.client.NumPyClient):
         model.load_state_dict(state_dict, strict=True)
 
         return model
-    
+
     def get_parameters(self, config):
         print("ALARM alarm!")
 
@@ -71,9 +71,9 @@ class CifarClient(fl.client.NumPyClient):
         # print(len(parameters))
         wandb.log({"parameterlength": len(parameters)})
         # print(fl.common.ndarrays_to_parameters(parameters))
-        
+
         model = self.set_parameters(parameters)
-        
+
         # Get config values
         steps: int = config["val_steps"]
 

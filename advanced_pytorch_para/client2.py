@@ -72,9 +72,9 @@ class CifarClient(fl.client.NumPyClient):
         # Update local model parameters
         print(len(parameters))
         # print(fl.common.ndarrays_to_parameters(parameters))
-        
+
         model = self.set_parameters(parameters)
-        
+
         # Get config values
         steps: int = config["val_steps"]
 
@@ -148,7 +148,6 @@ def main(ipaddress) -> None:
         required=False,
         help="Set to true to use GPU. Default: False",
     )
-
 
     args = parser.parse_args()
     # print(vars(args))

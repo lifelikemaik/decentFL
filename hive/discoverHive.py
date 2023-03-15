@@ -66,7 +66,7 @@ if __name__ == "__main__":
     try:
         dht = hivemind.DHT(
             host_maddrs=["/ip4/0.0.0.0/tcp/0", "/ip4/0.0.0.0/udp/0/quic"], start=True
-        ) # wie connnecten mit den anderen Teil von Hivemind?
+        )  # wie connnecten mit den anderen Teil von Hivemind?
         send = threading.Thread(target=send)
         receive = threading.Thread(target=receive)
         send.start()
