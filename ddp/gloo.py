@@ -87,8 +87,8 @@ if __name__ == "__main__":
         testset = MNIST('../data', train=False, download=True, transform=transforms.ToTensor())
         test_loader = th.utils.data.DataLoader(testset, batch_size=32, shuffle=False, num_workers=16)
         train_loader = th.utils.data.DataLoader(trainset, batch_size=32, shuffle=True, num_workers=16)
-        train_loader = th.utils.data.DataLoader(dataset1,**train_kwargs)
-        test_loader = th.utils.data.DataLoader(dataset2, **test_kwargs)
+        # train_loader = th.utils.data.DataLoader(dataset1,**train_kwargs)
+        # test_loader = th.utils.data.DataLoader(dataset2, **test_kwargs)
         run(2, 3)
 
     except KeyboardInterrupt or signal.SIGTERM:
