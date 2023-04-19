@@ -129,3 +129,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# mein Stuff
+
+local-worker/
+tmp/
+bytes/
+lightning_logs/
+*.npz
+*.pth
+parameters/
+raw/

@@ -2,7 +2,7 @@ FROM rabbitmq:3.11.9-management
 
 RUN apt-get -y update
 
-RUN apt-get install -y git iproute2 python3 python3-pip python-dev build-essential wget
+RUN apt-get install -y git iproute2 nano python3 python3-pip python-dev build-essential wget
 
 RUN git clone https://github.com/lifelikemaik/decentFL
 RUN pip3 install -r decentFL/advanced_pytorch_para/requirements.txt

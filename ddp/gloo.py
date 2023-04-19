@@ -75,6 +75,7 @@ if __name__ == "__main__":
         os.environ["MASTER_ADDR"] = "172.24.33.83"
         os.environ["MASTER_PORT"] = "29500"
         # in Docker Interface eth0@if7
+        # docekr geht
         os.environ["GLOO_SOCKET_IFNAME"] = "eth0"
         os.environ["TORCH_CPP_LOG_LEVEL"] = "INFO"
         os.environ["TORCH_DISTRIBUTED_DEBUG"] = "DETAIL"
@@ -87,9 +88,21 @@ if __name__ == "__main__":
         testset = MNIST('../data', train=False, download=True, transform=transforms.ToTensor())
         test_loader = th.utils.data.DataLoader(testset, batch_size=32, shuffle=False, num_workers=16)
         train_loader = th.utils.data.DataLoader(trainset, batch_size=32, shuffle=True, num_workers=16)
-        # train_loader = th.utils.data.DataLoader(dataset1,**train_kwargs)
-        # test_loader = th.utils.data.DataLoader(dataset2, **test_kwargs)
+        # train_kwargs = {'batch_size': 64}
         run(2, 3)
 
     except KeyboardInterrupt or signal.SIGTERM:
         sys.exit(1)
+
+
+# def main():
+#   load_checkpoint(checkpoint_path)
+#   initialize()
+#   train()
+
+# def train():
+#   for batch in iter(dataset):
+#     train_step(batch)
+
+#     if should_checkpoint:
+#       save_checkpoint(checkpoint_path)
