@@ -139,4 +139,5 @@ lightning_logs/
 *.npz
 *.pth
 parameters/
+*_round-1
 raw/
