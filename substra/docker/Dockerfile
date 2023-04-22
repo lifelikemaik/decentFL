@@ -10,6 +10,7 @@ RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /
 RUN echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 RUN apt update && apt install --yes docker-ce-cli
 
+# GIT CLONE ALL REPOS
 COPY  substra-tools/ substra-tools/
 COPY  substra/ substra/
 COPY  substrafl/ substrafl/
