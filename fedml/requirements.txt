@@ -1,3 +1,5 @@
+# mit python 3.10.7
+
 numpy>=1.21
 PyYAML~=5.4.1
 h5py~=3.7.0
@@ -9,8 +11,8 @@ pynvml
 scikit-learn~=1.1.1
 networkx~=2.8.5
 click~=8.1.3
-torch>=1.13.1
-torchvision>=0.14.1
+torch>=1.13.1 # 2.0.0 is the newest version, pip install torch==2.0.0 was selected
+torchvision>=0.14.1 # 0.15.1
 spacy~=3.4.0
 gensim~=4.2.0
 multiprocess~=0.70.13
@@ -39,6 +41,7 @@ mpi4py~=3.1.4
 tensorflow
 tensorflow_datasets
 tensorflow_federated
+# tensorflow_federated==0.1.0 # 0.55.0 is the newest version, but pip install tensorflow_federated==0.1.0 was selected
 jax[cpu]~=0.3.16
 dm-haiku
 optax~=0.1.3
@@ -48,7 +51,7 @@ mxnet~=1.6.0
 setuptools~=61.2.0
 docutils~=0.18.1
 sphinx~=5.0.2
-fedml~=0.8.3a6
+fedml~=0.8.3 #0.8.3 newest version
 opencv-python~=4.7.0.68
 pillow~=9.2.0
 seaborn~=0.11.2

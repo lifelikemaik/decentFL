@@ -141,3 +141,4 @@ lightning_logs/
 parameters/
 *_round-1
 raw/
+wandb/
