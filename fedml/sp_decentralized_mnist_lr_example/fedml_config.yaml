@@ -2,6 +2,8 @@ common_args:
   training_type: "simulation"
   random_seed: 0
   config_version: "release"
+  # vorher war dev, mqtt funktioniert nicht
+  # oben rechts profile -> copy account key -> create new project
   mlops_api_key: 8a24eda02ab84510878929f287b1b8df
   mlops_project_name: absolutertest
   mlops_run_name: fedml_torch_fedavg_mnist_lr_1
