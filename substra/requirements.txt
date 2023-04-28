@@ -1,0 +1,13 @@
+wheel
+torch==1.11.0
+substra 
+sklearn 
+numpy==1.23.1
+substrafl 
+substra 
+torch 
+torchvision 
+pandas 
+matplotlib 
+scikit_learn 
+scipy

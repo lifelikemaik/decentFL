@@ -9,3 +9,19 @@ python3.9 -m venv namederenv
 
 
 pip3 install -r requirements.txt
+
+Alternative wenn version keine Rolle spielt
+
+virtualenv name
+
+source name/bin/activate
+deactivate
+
+auf Linux rechner ist 3.10
+
+sudo apt install python3.10
+sudo apt install python3.10-dev
+sudo apt install python3.10-venv
+
+python3.10 -m venv namederenv
+
