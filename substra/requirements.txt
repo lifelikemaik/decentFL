@@ -1,4 +1,7 @@
+pip>=21.2
 wheel
+six
+packaging
 torch==1.11.0
 substra 
 sklearn 
@@ -6,8 +9,14 @@ numpy==1.23.1
 substrafl 
 substra 
 torch 
+substratools~=0.20.0
 torchvision 
 pandas 
+pydantic>=1.9.0
 matplotlib 
 scikit_learn 
 scipy
+docker
+nbmake>=1.1
+types-PyYAML>=6.0.0
+pytest>=6.2.4
