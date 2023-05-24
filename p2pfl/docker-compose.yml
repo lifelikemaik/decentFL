@@ -1,0 +1,10 @@
+version: '1.0'
+services:
+  container:
+    image: decentfl:latest
+    networks:
+      - mynetwork
+    hostname: ${HOSTNAME}
+    container_name: ${CONTAINER_NAME}
+networks:
+  mynetwork:
